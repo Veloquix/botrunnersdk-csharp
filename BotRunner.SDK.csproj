@@ -11,12 +11,15 @@
 		<Copyright>© 2025</Copyright>
 		<Version>1.0.0</Version>
 		<DebugType>embedded</DebugType>
-		<PackageIcon>Icon.png</PackageIcon>
+		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="Readme.md" Pack="true" PackagePath="\"/>
-		<None Include="Icon.png" Pack="true" PackagePath="\"/>
+		<None Include="readme.md" Pack="true" PackagePath="\" />
+		<None Include="icon.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 </Project>
