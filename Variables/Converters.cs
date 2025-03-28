@@ -2,7 +2,6 @@
 using System.Linq;
 using Veloquix.BotRunner.SDK.Contracts.v1;
 using Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
-using Veloquix.BotRunner.SDK.Conversation;
 
 namespace Veloquix.BotRunner.SDK.Variables;
 

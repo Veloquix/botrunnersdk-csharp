@@ -2,17 +2,19 @@
 
 public interface IStatus : IConvertible;
 
-public class CallReceived : IState
+public class CallReceived : IHaveChannelType
 {
     public string Type => this.GetTypeName();
+    public ChannelType Channel => ChannelType.Phone;
 }
 
 /// <summary>
 /// SMSReceived means a *new* SMS to the BotNumber, either from a number we're already conversing with, or a brand new conversation.
 /// Any SMSs received during a known conversation in that channel should generally be handled as Answers.
 /// </summary>
-public class SMSReceived : IState
+public class SMSReceived : IHaveChannelType
 {
+    public ChannelType Channel => ChannelType.SMS;
     public string Type => this.GetTypeName();
 }
 
@@ -24,14 +26,19 @@ public class Ready : IState
     public string Type => this.GetTypeName();
 }
 
+public interface IHaveChannelType : IState
+{
+    ChannelType Channel { get; }
+}
+
 /// <summary>
 /// DrivingChannel is the most active channel (intrinsically, not per the conversation).
 /// Currently that's phone, then SMS. When a conversation is inactive (not listening for a response,
 /// not talking to the user), it will be ended when we reach the MaxIdleSeconds value.
 /// </summary>
-public class Stalled : IState
+public class Stalled : IHaveChannelType
 {
-    public ChannelType DrivingChannel { get; set; }
+    public ChannelType Channel { get; set; }
     public int IdleForSeconds { get; set; }
     public int MaxIdleSeconds { get; set; }
     public string Type => this.GetTypeName();
@@ -43,7 +50,7 @@ public class ConversationEnded : IState
     public string Type => this.GetTypeName();
 }
 
-public class ChannelTransferred : IState
+public class ChannelTransferred : IHaveChannelType
 {
     public ChannelType Channel { get; set; }
     public string Type => this.GetTypeName();

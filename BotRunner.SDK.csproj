@@ -1,12 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Veloquix.BotRunner.SDK</RootNamespace>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>Veloquix.BotRunner.SDK</RootNamespace>
+		<AssemblyName>Veloquix.BotRunner.SDK</AssemblyName>
+		<Title>BotRunner SDK</Title>
+		<Authors>Veloquix Team</Authors>
+		<Company>Veloquix</Company>
+		<Description>Provides tools and support for companies to build automated voice and text apps using our BotRunner platform.</Description>
+		<Copyright>© 2025</Copyright>
+		<Version>1.0.0</Version>
+		<DebugType>embedded</DebugType>
+		<PackageIcon>Icon.png</PackageIcon>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="Readme.md" Pack="true" PackagePath="\"/>
+		<None Include="Icon.png" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 
 </Project>

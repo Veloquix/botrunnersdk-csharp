@@ -31,11 +31,11 @@ public enum InvalidType
     NoMatch
 }
 
-public abstract class BaseAnswer : IState
+public abstract class BaseAnswer : IHaveChannelType
 {
     public string QuestionName { get; set; }
     public string RawText { get; set; }
-    public ChannelType ChannelType { get; set; }
+    public ChannelType Channel { get; set; }
     public List<ValidationFailures> ValidationFailures { get; set; } = new();
     public bool UsedDTMF { get; set; }
     public DateTimeOffset Timestamp { get; set; }

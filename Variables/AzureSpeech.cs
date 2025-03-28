@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Veloquix.BotRunner.SDK.Contracts.v1;
+﻿using Veloquix.BotRunner.SDK.Contracts.v1;
 
 namespace Veloquix.BotRunner.SDK.Variables;
 
