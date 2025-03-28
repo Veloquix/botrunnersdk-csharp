@@ -13,6 +13,7 @@
 		<DebugType>embedded</DebugType>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="readme.md" Pack="true" PackagePath="\" />
