@@ -5,6 +5,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Veloquix.BotRunner.SDK.Authentication;
 using Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
 using Veloquix.BotRunner.SDK.Contracts.v1.ToBotRunner;
 
@@ -16,9 +17,15 @@ public static class HttpExtensions
     {
         app.MapPost(route, async ctx =>
         {
-            var scoped = app.Services.CreateScope();
-
             
+            if (!await ctx.ValidateToken())
+            {
+                ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                await ctx.Response.CompleteAsync();
+                return;
+            }
+
+            var scoped = app.Services.CreateScope();
             var incoming = await ctx.Request.ReadFromJsonAsync<WebhookRequest>(Contracts.v1.Constants.Options);
             var routing = scoped.ServiceProvider.GetService<IRouting>();
             var handler = scoped.ServiceProvider.GetService<IWebHookHandler>();
@@ -62,6 +69,8 @@ public static class HttpExtensions
                 var json = JsonSerializer.Serialize(response, Contracts.v1.Constants.Options);
 
                 await writer.WriteAsync(json);
+                await writer.FlushAsync();
+                await ctx.Response.CompleteAsync();
             }
             catch (Exception ex)
             {
