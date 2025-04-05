@@ -48,7 +48,7 @@ public static class HttpExtensions
 
 
             Response response = null;
-            var context = new ConversationContext(incoming);
+            var context = new ConversationContext(incoming, messages);
 
             try
             {

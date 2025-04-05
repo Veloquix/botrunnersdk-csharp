@@ -26,5 +26,6 @@ public interface IConversationContext
     ITags Tags { get; }
     IVariables Variables { get; }
     IActions Actions { get; }
+    IMessageSource Messages { get; }
     Response BuildResponse();
 }

@@ -12,7 +12,7 @@ namespace Veloquix.BotRunner.SDK;
 
 public class ConversationContext: IConversationContext
 {
-    public ConversationContext(Incoming incoming)
+    public ConversationContext(Incoming incoming, IMessageSource messages)
     {
         ConversationId = incoming.ConversationId;
         Request = incoming;
@@ -33,6 +33,7 @@ public class ConversationContext: IConversationContext
         }
         LastAction = incoming.LastAction;
         Language = Variables[StandardVariables.CurrentLanguage] ?? SupportedLanguages.English.UnitedStates;
+        Messages = messages;
     }
     public Guid ConversationId { get; }
     public Incoming Request { get; }
@@ -56,6 +57,7 @@ public class ConversationContext: IConversationContext
     public ITags Tags { get; }
     public IVariables Variables { get; }
     public IActions Actions { get; }
+    public IMessageSource Messages { get; }
 
     public Outgoing BuildResponse()
     {
