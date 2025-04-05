@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Veloquix.BotRunner.SDK.Conversation;
+namespace Veloquix.BotRunner.SDK;
 
 public class BotRunnerService(IServiceCollection services)
 {
     private bool _hasRegistration = false;
-    public BotRunnerService WithRouting<TRouting>() where TRouting : class, IRouting
+    public BotRunnerService WithRouting<TRouting>() where TRouting : class, IWebHookRouter
     {
         if (_hasRegistration)
         {
@@ -13,7 +13,7 @@ public class BotRunnerService(IServiceCollection services)
         }
 
         _hasRegistration = true;
-        services.AddScoped<IRouting, TRouting>();
+        services.AddScoped<IWebHookRouter, TRouting>();
         return this;
     }
 

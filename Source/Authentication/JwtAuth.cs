@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using Veloquix.BotRunner.SDK.Conversation;
 
 namespace Veloquix.BotRunner.SDK.Authentication;
 internal static class JwtAuth
@@ -66,7 +65,7 @@ internal static class JwtAuth
 
             var isValid = true;
 
-            if (!result.Claims.TryGetValue(Constants.Authentication.AccountIdClaimName, out var accClaim))
+            if (!result.Claims.TryGetValue(TokenConstants.AccountIdClaimName, out var accClaim))
             {
                 isValid = false;
                 Err("No AccountId Claim");
@@ -78,7 +77,7 @@ internal static class JwtAuth
                 Err($"Invalid AccountId Claim - Does not match {_accountId}");
             }
 
-            if (!result.Claims.TryGetValue(Constants.Authentication.ApplicationIdClaimName, out var appClaim))
+            if (!result.Claims.TryGetValue(TokenConstants.ApplicationIdClaimName, out var appClaim))
             {
                 isValid = false;
                 Err("No ApplicationId Claim");

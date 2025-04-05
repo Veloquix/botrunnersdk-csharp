@@ -1,6 +1,4 @@
-﻿using Veloquix.BotRunner.SDK.Conversation;
-
-namespace Veloquix.BotRunner.SDK;
+﻿namespace Veloquix.BotRunner.SDK;
 
 /// <summary>
 /// Various 

@@ -9,7 +9,7 @@ using Veloquix.BotRunner.SDK.Authentication;
 using Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
 using Veloquix.BotRunner.SDK.Contracts.v1.ToBotRunner;
 
-namespace Veloquix.BotRunner.SDK.Conversation;
+namespace Veloquix.BotRunner.SDK.Registration;
 
 public static class HttpExtensions
 {
@@ -27,7 +27,7 @@ public static class HttpExtensions
 
             var scoped = app.Services.CreateScope();
             var incoming = await ctx.Request.ReadFromJsonAsync<WebhookRequest>(Contracts.v1.Constants.Options);
-            var routing = scoped.ServiceProvider.GetService<IRouting>();
+            var routing = scoped.ServiceProvider.GetService<IWebHookRouter>();
             var handler = scoped.ServiceProvider.GetService<IWebHookHandler>();
             IMessageSource messages;
             try
@@ -43,12 +43,12 @@ public static class HttpExtensions
             if (routing is null && handler is null)
             {
                 throw new VeloquixException(
-                    $"Either a {nameof(IWebHookHandler)} or a {nameof(IRouting)} needs to be registered. Methods are available when you call {nameof(ServiceExtensions.StartBotRunner)} to register one of the two.");
+                    $"Either a {nameof(IWebHookHandler)} or a {nameof(IWebHookRouter)} needs to be registered. Methods are available when you call {nameof(ServiceExtensions.StartBotRunner)} to register one of the two.");
             }
 
 
             Response response = null;
-            var context = new ConversationContext(incoming, messages);
+            var context = new ConversationContext(incoming);
 
             try
             {

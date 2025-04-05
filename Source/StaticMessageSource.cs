@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Veloquix.BotRunner.SDK.Conversation;
+namespace Veloquix.BotRunner.SDK;
 
 public class StaticMessageSource : IMessageSource
 {

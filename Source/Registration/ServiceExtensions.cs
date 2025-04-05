@@ -1,13 +1,21 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 using Veloquix.BotRunner.SDK.Authentication;
 
-namespace Veloquix.BotRunner.SDK.Conversation;
+namespace Veloquix.BotRunner.SDK.Registration;
 
 public static class ServiceExtensions
 {
-    public static BotRunnerService StartBotRunner(this IServiceCollection services, string accountId, string applicationId, IMessageSource source = null)
+    public static BotRunnerService StartBotRunner(this IServiceCollection services, string accountId, string applicationId, 
+        IMessageSource source = null, JsonSerializerOptions variableSerializerOptions = null)
     {
+
+        if (variableSerializerOptions is not null)
+        {
+            Variable.SetOptions(variableSerializerOptions);
+        }
+
         var br = new BotRunnerService(services);
 
         JwtAuth.Setup(accountId, applicationId);
