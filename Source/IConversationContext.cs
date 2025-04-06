@@ -10,6 +10,7 @@ public interface IConversationContext
     Guid ConversationId { get; }
     WebhookRequest Request { get; }
     string Language { get; set; }
+    int Failures { get; set; }
     /// <summary>
     /// The name of the last <see cref="IAction"/> taken by BotRunner.
     /// </summary>

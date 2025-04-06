@@ -52,6 +52,23 @@ public class ConversationContext: IConversationContext
         }
         set => Variables[StandardVariables.CurrentLanguage] = value;
     }
+
+    public int Failures
+    {
+        get
+        {
+            if (!Variables.ContainsKey(StandardVariables.FailureCount))
+            {
+                return 0;
+            }
+
+            var failures = Convert.ToInt32(Variables[StandardVariables.FailureCount]);
+            return Convert.ToInt32(failures);
+        }
+
+        set => Variables[StandardVariables.FailureCount] = value.ToString();
+    }
+
     public string LastAction { get; }
     public ChannelType? RequestChannel { get; }
     public ITags Tags { get; }

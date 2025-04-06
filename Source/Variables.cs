@@ -69,8 +69,12 @@ public interface IVariables : IEnumerable<KeyValuePair<string, Variable>>
 
     /// <summary>
     /// Reset the variables collection back to the contents of <see cref="OriginalState"/>; no data mods will go back to BotRunner in this case.
+    /// <para>
+    /// WARNING: Setting includeStandardVariables to true will clear out things like the current language setting.
+    /// You probably don't want to set that to true.
+    /// </para>
     /// </summary>
-    void Revert();
+    void Revert(bool includeStandardVariables = false);
 }
 
 internal class Variables : IVariables
@@ -80,7 +84,7 @@ internal class Variables : IVariables
     internal Variables(Dictionary<string, Contracts.v1.Variable> originalVariables)
     {
         OriginalState = originalVariables.ToDictionary(k => k.Key, v => new Variable(v.Value));
-        Revert();
+        Revert(true);
     }
 
     public IReadOnlyDictionary<string, Variable> OriginalState { get; }
@@ -116,10 +120,22 @@ internal class Variables : IVariables
     public void Remove(string key)
         => _currentState.Remove(key);
     
-    public void Revert()
+    public void Revert(bool includeStandardVariables)
     {
+        foreach (var kvp in _currentState)
+        {
+            if (!includeStandardVariables && StandardVariables.All.Contains(kvp.Key))
+            {
+                continue;
+            }
+
+            _currentState.Remove(kvp.Key);
+        }
         _currentState.Clear();
-        foreach (var kvp in OriginalState)
+        var originalVars = !includeStandardVariables
+            ? OriginalState.Where(o => !StandardVariables.All.Contains(o.Key))
+            : OriginalState;
+        foreach (var kvp in originalVars)
         {
             this[kvp.Key] = Variable.Create(kvp.Value.Value, kvp.Value.IsSensitive);
         }

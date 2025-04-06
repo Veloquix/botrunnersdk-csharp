@@ -131,7 +131,7 @@ public class AskBuilder
         return this;
     }
 
-    public AskBuilder AddDTMF(VoiceAndDTMFUsage usage, params DTMFEntry[] entries)
+    public AskBuilder AddDTMF(VoiceAndDTMFUsage usage = VoiceAndDTMFUsage.BothAllowed, params DTMFEntry[] entries)
     {
         _ask.AllowedInputs.Add(new DTMFInput
         {
