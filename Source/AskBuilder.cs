@@ -19,7 +19,7 @@ public class AskBuilder
             Message = string.Empty,
             LanguageCode = _context.Language,
             AllowedInputs = [],
-            AllowInterruption = false,
+            AllowInterruption = true,
             CanRecord = true,
             CanRecordResponse = true,
             Name = string.Empty
@@ -148,7 +148,21 @@ public class AskBuilder
         return this;
     }
 
+    /// <summary>
+    /// If you don't want to add the resulting <see cref="AskQuestion"/> immediately to actions,
+    /// you can complete the build and get the object back.
+    /// </summary>
     public AskQuestion Build() => _ask;
+
+    /// <summary>
+    /// This is the typical use case - it saves the <see cref="AskQuestion"/> to <see cref="IActions"/>,
+    /// then returns the <see cref="IConversationContext"/> so you can complete and return the response in one line.
+    /// </summary>
+    public IConversationContext Save()
+    {
+        _context.Actions.Add(_ask);
+        return _context;
+    } 
 }
 
 public static class AskBuilderExtensions

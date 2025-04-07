@@ -65,7 +65,7 @@ public interface IVariables : IEnumerable<KeyValuePair<string, Variable>>
     Variable this[string key] { get; set; }
     bool ContainsKey(string key);
     void Add(string key, Variable variable);
-    void Remove(string key);
+    void Remove(params string[] keys);
 
     /// <summary>
     /// Reset the variables collection back to the contents of <see cref="OriginalState"/>; no data mods will go back to BotRunner in this case.
@@ -117,8 +117,13 @@ internal class Variables : IVariables
     public void Add(string key, Variable variable)
         => _currentState[key] = variable;
 
-    public void Remove(string key)
-        => _currentState.Remove(key);
+    public void Remove(params string[] keys)
+    {
+        foreach (var k in keys)
+        {
+            _currentState.Remove(k);
+        }
+    }
     
     public void Revert(bool includeStandardVariables)
     {
