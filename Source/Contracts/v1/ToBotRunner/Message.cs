@@ -56,6 +56,19 @@ public class Talk : IAction
     public bool CanRecord { get; set; }
     public string Type => this.GetTypeName();
 }
+
+public class PlayAudio : IAction
+{
+    public string Type => this.GetTypeName();
+    public string Name { get; set; }
+    public AudioFormat Format { get; set; }
+    public string AudioAsBase64 { get; set; }
+    public required ChannelType ChannelType { get; set; }
+}
+
+public enum AudioFormat { Unknown, Raw16bit8kPCM }
+
+
 public class OpenSMSChannel : IAction
 {
     public string Name { get; set; }

@@ -32,7 +32,7 @@ public class Variable
     public string Value { get; init; }
     public bool IsSensitive { get; init; }
 
-    public static implicit operator string(Variable v) => v.Value;
+    public static implicit operator string(Variable v) => v?.Value;
     public static implicit operator Variable(string val) => Create(val, false);
 
     public T To<T>() => JsonSerializer.Deserialize<T>(Value, _options);
@@ -91,7 +91,7 @@ internal class Variables : IVariables
 
     public Variable this[string key]
     {
-        get => _currentState[key];
+        get => _currentState.GetValueOrDefault(key);
         set
         {
             if (key.Equals(StandardVariables.CurrentLanguage))

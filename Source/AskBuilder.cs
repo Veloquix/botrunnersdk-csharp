@@ -121,7 +121,7 @@ public class AskBuilder
         return this;
     }
 
-    public AskBuilder AddYesNo(VoiceAndDTMFUsage usage)
+    public AskBuilder AddYesNo(VoiceAndDTMFUsage usage = VoiceAndDTMFUsage.BothAllowed)
     {
         _ask.AllowedInputs.Add(new YesNoInput
         {
