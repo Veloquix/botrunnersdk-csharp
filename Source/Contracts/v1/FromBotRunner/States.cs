@@ -1,4 +1,6 @@
-﻿namespace Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
+﻿using System.Collections.Generic;
+
+namespace Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
 
 public interface IStatus : IConvertible;
 
@@ -6,6 +8,7 @@ public class CallReceived : IHaveChannelType
 {
     public string Type => this.GetTypeName();
     public ChannelType Channel => ChannelType.Phone;
+    public Dictionary<string, string> SIPHeaders { get; set; } = [];
 }
 
 /// <summary>
