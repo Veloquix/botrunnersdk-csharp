@@ -102,12 +102,19 @@ public class ConversationContext: IConversationContext
 
         foreach (var variable in Variables)
         {
-            // if the variable wasn't previously defined, or it has changed, we add it to the SetVariables call.
-            if (!existingVariables.Contains(variable.Key) || 
-                !variable.Value.Value.SequenceEqual(Request.Variables[variable.Key].Value))
+            try
             {
-                updates.Add(variable.Key, variable.Value.ToContract());
-                continue;
+                // if the variable wasn't previously defined, or it has changed, we add it to the SetVariables call.
+                if (!existingVariables.Contains(variable.Key) ||
+                    !variable.Value.Value.SequenceEqual(Request.Variables[variable.Key].Value))
+                {
+                    updates.Add(variable.Key, variable.Value.ToContract());
+                    continue;
+                }
+            }
+            catch (Exception e)
+            {
+                int test = 9;
             }
         }
 
