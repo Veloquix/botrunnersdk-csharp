@@ -5,6 +5,7 @@ namespace Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
 public class WebhookRequest
 {
     public Guid ConversationId { get; set; }
+    public Guid ParentConversationId { get; set; }
     public Channels CurrentChannels { get; set; }
     public Dictionary<string, Variable> Variables { get; set; }
     public List<string> Tags { get; set; }

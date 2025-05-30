@@ -58,3 +58,19 @@ public class ChannelTransferred : IHaveChannelType
     public ChannelType Channel { get; set; }
     public string Type => this.GetTypeName();
 }
+
+/// <summary>
+/// Important: This should be received on the 'new' conversation, not the old one.
+/// </summary>
+public class ConnectionMissed : IState
+{
+    public string Type => this.GetTypeName();
+}
+
+/// <summary>
+/// Important: This should be received on the 'new' conversation, not the old one.
+/// </summary>
+public class ConnectionMade : IState
+{
+    public string Type => this.GetTypeName();
+}

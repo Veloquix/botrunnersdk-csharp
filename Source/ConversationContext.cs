@@ -15,6 +15,7 @@ public class ConversationContext: IConversationContext
     public ConversationContext(Incoming incoming, IMessageSource messages)
     {
         ConversationId = incoming.ConversationId;
+        ParentConversationId = incoming.ParentConversationId;
         Request = incoming;
         Variables = new SDK.Variables(incoming.Variables);
         Tags = new Tags(incoming.Tags);
@@ -36,6 +37,7 @@ public class ConversationContext: IConversationContext
         Messages = messages;
     }
     public Guid ConversationId { get; }
+    public Guid ParentConversationId { get; }
     public Incoming Request { get; }
     public JsonSerializerOptions SerializerOptions { get; }
 
@@ -102,19 +104,11 @@ public class ConversationContext: IConversationContext
 
         foreach (var variable in Variables)
         {
-            try
+            // if the variable wasn't previously defined, or it has changed, we add it to the SetVariables call.
+            if (!existingVariables.Contains(variable.Key) ||
+                !variable.Value.Value.SequenceEqual(Request.Variables[variable.Key].Value))
             {
-                // if the variable wasn't previously defined, or it has changed, we add it to the SetVariables call.
-                if (!existingVariables.Contains(variable.Key) ||
-                    !variable.Value.Value.SequenceEqual(Request.Variables[variable.Key].Value))
-                {
-                    updates.Add(variable.Key, variable.Value.ToContract());
-                    continue;
-                }
-            }
-            catch (Exception e)
-            {
-                int test = 9;
+                updates.Add(variable.Key, variable.Value.ToContract());
             }
         }
 
