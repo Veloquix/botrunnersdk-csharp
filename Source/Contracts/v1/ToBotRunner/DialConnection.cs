@@ -10,12 +10,9 @@ public class DialConnection : IAction
 {
     public string Name { get; init; }
     public string To { get; init; }
-    public int Timeout { get; init; }
     /// <summary>
-    /// NOT the parent. This is the new conversation ID. We ask the upstream system to define it
-    /// so we have a point of reference when messaging them about this conversation.
+    /// Seconds to try the connection before giving up. Should be kept short to avoid voicemail.
     /// </summary>
-    public Guid ConversationId { get; set; }
-    public Guid ParentConversationId { get; init; } = Guid.Empty;
+    public int Timeout { get; init; }
     public string Type => this.GetTypeName();
 }

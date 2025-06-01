@@ -5,12 +5,31 @@ namespace Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
 public class WebhookRequest
 {
     public Guid ConversationId { get; set; }
-    public Guid ParentConversationId { get; set; }
+    /// <summary>
+    /// The identifier for the primary (initial) Connection.
+    /// </summary>
+    public Guid ConnectionId { get; set; }
     public Channels CurrentChannels { get; set; }
+    /// <summary>
+    /// Information for the other Connection, if we have two active Connections between BotRunner and users (typically for transfer scenarios).
+    /// <para>
+    /// Can be null.
+    /// </para>
+    /// </summary>
+    public Connection Connection { get; set; }
     public Dictionary<string, Variable> Variables { get; set; }
     public List<string> Tags { get; set; }
     public string LastAction { get; set; } = Constants.NoAction;
     public IState State { get; set; }
+}
+
+/// <summary>
+/// The second connection
+/// </summary>
+public class Connection
+{
+    public Guid Id { get; set; }
+    public Channels Channels { get; set; }
 }
 
 public class Channels

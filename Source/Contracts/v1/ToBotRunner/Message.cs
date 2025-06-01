@@ -42,23 +42,14 @@ public interface IAction : IConvertible
     string Name { get; }
 }
 
-public class Talk : IAction
+public interface IConnectionAction : IAction
 {
-    public string Name { get; set; }
-    /// <summary>
-    /// Only relevant for voice-based channels (currently, only Telephony). If null or empty,
-    /// the value chosen when BotRunner was configured, or the Veloquix default, will be used.
-    /// </summary>
-    public string Voice { get; set; }
-    public required string Message { get; set; }
-    public required string LanguageCode { get; set; }
-    public required ChannelType ChannelType { get; set; }
-    public bool CanRecord { get; set; }
-    public string Type => this.GetTypeName();
+    Guid? ConnectionId { get; set; }
 }
 
-public class PlayAudio : IAction
+public class PlayAudio : IConnectionAction
 {
+    public Guid? ConnectionId { get; set; }
     public string Type => this.GetTypeName();
     public string Name { get; set; }
     public AudioFormat Format { get; set; }
@@ -68,9 +59,9 @@ public class PlayAudio : IAction
 
 public enum AudioFormat { Unknown, Raw16bit8kPCM }
 
-
-public class OpenSMSChannel : IAction
+public class OpenSMSChannel : IConnectionAction
 {
+    public Guid? ConnectionId { get; set; }
     public string Name { get; set; }
     public string Type => this.GetTypeName();
     /// <summary>
@@ -83,8 +74,9 @@ public class OpenSMSChannel : IAction
     public string ToNumber { get; set; }
 }
 
-public class CloseChannel : IAction
+public class CloseChannel : IConnectionAction
 {
+    public Guid? ConnectionId { get; set; }
     public string Name { get; set; }
     public ChannelType Channel { get; set; }
     public string Type => this.GetTypeName();
@@ -92,6 +84,7 @@ public class CloseChannel : IAction
 
 public class EndConversation : IAction
 {
+    public Guid? ConnectionId { get; set; }
     public string Name { get; set; }
     public string Type => this.GetTypeName();
 }

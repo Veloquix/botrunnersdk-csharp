@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
 
-public class InvalidAnswerReceived : IState
+public class InvalidAnswerReceived : IConnectionState
 {
+    public Guid ConnectionId { get; set; }
     public string QuestionName { get; set; }
     public ChannelType ChannelType { get; set; }
     public DateTimeOffset Timestamp { get; set; }
@@ -33,6 +34,7 @@ public enum InvalidType
 
 public abstract class BaseAnswer : IHaveChannelType
 {
+    public Guid ConnectionId { get; set; }
     public string QuestionName { get; set; }
     public string RawText { get; set; }
     public ChannelType Channel { get; set; }
@@ -75,7 +77,7 @@ public class CLUAnswerReceived : BaseAnswer
 public enum ValidationFailures
 {
     Unknown,
-    BelowMinLength, 
+    BelowMinLength,
     AboveMaxLength,
     FailedRegex,
     NoDecimalsAllowed,

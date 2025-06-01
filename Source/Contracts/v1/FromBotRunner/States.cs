@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Veloquix.BotRunner.SDK.Contracts.v1.FromBotRunner;
 
@@ -7,6 +8,15 @@ public interface IStatus : IConvertible;
 public class CallReceived : IHaveChannelType
 {
     public string Type => this.GetTypeName();
+    /// <summary>
+    /// For most calls, can be ignored and is not required to be passed back in an
+    /// <see cref="Veloquix.BotRunner.SDK.Contracts.v1.ToBotRunner.IAction"/>.
+    ///
+    /// If you have dialed a second connection, you will then need to use this to specify the original connection vs.
+    /// the second one.
+    /// </summary>
+    public Guid ConnectionId { get; set; }
+    public bool MayBeSpam { get; set; }
     public ChannelType Channel => ChannelType.Phone;
     public Dictionary<string, string> SIPHeaders { get; set; } = [];
 }
@@ -17,6 +27,7 @@ public class CallReceived : IHaveChannelType
 /// </summary>
 public class SMSReceived : IHaveChannelType
 {
+    public Guid ConnectionId { get; set; }
     public ChannelType Channel => ChannelType.SMS;
     public string Type => this.GetTypeName();
 }
@@ -29,7 +40,15 @@ public class Ready : IState
     public string Type => this.GetTypeName();
 }
 
-public interface IHaveChannelType : IState
+/// <summary>
+/// A state that has a relationship to a specific connection.
+/// </summary>
+public interface IConnectionState : IState
+{
+    public Guid ConnectionId { get; set; }
+}
+
+public interface IHaveChannelType : IConnectionState
 {
     ChannelType Channel { get; }
 }
@@ -41,6 +60,7 @@ public interface IHaveChannelType : IState
 /// </summary>
 public class Stalled : IHaveChannelType
 {
+    public Guid ConnectionId { get; set; }
     public ChannelType Channel { get; set; }
     public int IdleForSeconds { get; set; }
     public int MaxIdleSeconds { get; set; }
@@ -53,24 +73,32 @@ public class ConversationEnded : IState
     public string Type => this.GetTypeName();
 }
 
-public class ChannelTransferred : IHaveChannelType
-{
-    public ChannelType Channel { get; set; }
-    public string Type => this.GetTypeName();
-}
-
 /// <summary>
-/// Important: This should be received on the 'new' conversation, not the old one.
+/// Unable to connect to the dialed connection; no Id provided as it can only be the second connection.
 /// </summary>
 public class ConnectionMissed : IState
 {
     public string Type => this.GetTypeName();
 }
 
-/// <summary>
-/// Important: This should be received on the 'new' conversation, not the old one.
-/// </summary>
 public class ConnectionMade : IState
 {
+    public Guid ConnectionId { get; set; }
     public string Type => this.GetTypeName();
+}
+
+public class ConnectionClosed : IConnectionState
+{
+    public Guid ConnectionId { get; set; }
+    public string Type => this.GetTypeName();
+}
+
+/// <summary>
+/// No audio detected on the other end for the first 5 seconds - possible autodialer
+/// </summary>
+public class NoAudioDetected : IConnectionState
+{
+    public Guid ConnectionId { get; set; }
+    public string Type => this.GetTypeName();
+
 }

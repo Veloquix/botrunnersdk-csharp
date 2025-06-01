@@ -15,7 +15,7 @@ public class ConversationContext: IConversationContext
     public ConversationContext(Incoming incoming, IMessageSource messages)
     {
         ConversationId = incoming.ConversationId;
-        ParentConversationId = incoming.ParentConversationId;
+        Connection = incoming.Connection;
         Request = incoming;
         Variables = new SDK.Variables(incoming.Variables);
         Tags = new Tags(incoming.Tags);
@@ -37,9 +37,12 @@ public class ConversationContext: IConversationContext
         Messages = messages;
     }
     public Guid ConversationId { get; }
-    public Guid ParentConversationId { get; }
+    /// <summary>
+    /// Secondary connection (likely between BotRunner and an agent).
+    /// </summary>
+    public Connection Connection { get; }
     public Incoming Request { get; }
-    public JsonSerializerOptions SerializerOptions { get; }
+    public JsonSerializerOptions SerializerOptions => Constants.Options;
 
     public string Language
     {
